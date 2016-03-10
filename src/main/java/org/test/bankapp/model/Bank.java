@@ -7,7 +7,7 @@ import java.util.*;
 public class Bank implements Report {
     private Set<Client> clients = new HashSet<Client>();
     private List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
-    private Map<String, Client> clientCache= new TreeMap<String, Client>();
+    private Map<String, Client> clientCache = new TreeMap<String, Client>();
 
     public interface ClientRegistrationListener {
         void onClientAdded(Client c);
@@ -23,8 +23,6 @@ public class Bank implements Report {
             System.out.println("  Active account    :");
             client.getActiveAccount().printReport();
             System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-            clientCache.put(client.getName(),client);
-
         }
     }
 
@@ -34,7 +32,6 @@ public class Bank implements Report {
             System.out.println("Notification email for client \"" + client.getName() + "\"… to be sent");
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
-
     }
 
     public void registerEvent(ClientRegistrationListener listener) {
@@ -47,8 +44,8 @@ public class Bank implements Report {
     }
 
     private void checkDuplicateName(Client client) throws ClientExistsException {
-        for(Client tmpClient:clients) {
-            if(tmpClient.getName().equals(client.getName())) {
+        for (Client tmpClient : clients) {
+            if (tmpClient.getName().equals(client.getName())) {
                 throw new ClientExistsException();
             }
         }
@@ -56,14 +53,22 @@ public class Bank implements Report {
 
     public void addClient(Client client) throws ClientExistsException {
         checkDuplicateName(client);
+        // TODO: cache should take into consideration client.gender
+        clientCache.put(client.getName(), client);
         clients.add(client);
-        for (ClientRegistrationListener listener : listeners)
+        for (ClientRegistrationListener listener : listeners) {
             listener.onClientAdded(client);
+        }
+    }
+
+    public void removeClient(Client c) {
+        clients.remove(c);
+        // TODO - remove action be name only
+        clientCache.remove(c.getName());
     }
 
     public Set<Client> getClients() {
         return clients;
-
     }
 
     public Map<String, Client> getClientCache() {
@@ -71,40 +76,33 @@ public class Bank implements Report {
     }
 
     public void printReport() {
-
         float bankBalance = 0.f;
         for (Client client : clients) {
             bankBalance += client.getBalance();
         }
-
         System.out.println("\n\n\n\nBank report  :");
         System.out.println("Report date  : " + new Date());
         System.out.printf("Bank balance : %.2f\n", bankBalance);
         System.out.printf("Bank kredit : %.2f\n", BankReport.getBankCreditSum(this));
         System.out.println("Client lists (client count:" + BankReport.getNumberOfClients(this) +
-                ""+ " client account count: "+BankReport.getAccountsNumber(this)+"):");
-        int i=1;
-        for(Client client:BankReport.getClientsSorted(this)) {
+                "" + " client account count: " + BankReport.getAccountsNumber(this) + "):");
+        int i = 1;
+        for (Client client : BankReport.getClientsSorted(this)) {
             System.out.println("==============================================================");
             System.out.println("Clinet # [" + i + "]");
             System.out.println("==============================================================");
             client.printReport();
             System.out.println("==============================================================");
-
             i++;
         }
-
         System.out.println("Stats by city:");
-        Map<String, List<Client>> mapClinetOfCities =BankReport.getClientsByCity(this);
-
-        for (String city:mapClinetOfCities.keySet()) {
-            System.out.println("City: "+ city);
-            for(Client client:mapClinetOfCities.get(city)) {
+        Map<String, List<Client>> mapClinetOfCities = BankReport.getClientsByCity(this);
+        for (String city : mapClinetOfCities.keySet()) {
+            System.out.println("City: " + city);
+            for (Client client : mapClinetOfCities.get(city)) {
                 client.printReport();
             }
         }
-
         System.out.println(BankReport.getClientsByCity(this));
     }
-
 }
