@@ -1,7 +1,6 @@
 package org.test.bankapp.model;
 
 import org.test.bankapp.exception.ClientExistsException;
-import org.test.bankapp.exception.ClientRegistrationListener;
 
 import java.util.*;
 
@@ -10,6 +9,9 @@ public class Bank implements Report {
     private List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
     private Map<String, Client> clientCache= new TreeMap<String, Client>();
 
+    public interface ClientRegistrationListener {
+        void onClientAdded(Client c);
+    }
 
     public class PrintClientListener implements ClientRegistrationListener {
         public void onClientAdded(Client client) {
