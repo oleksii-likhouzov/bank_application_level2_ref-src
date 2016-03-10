@@ -4,11 +4,10 @@ package org.test.bankapp.model;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.test.bankapp.NotEnoughFundsException;
+import org.test.bankapp.exception.NotEnoughFundsException;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Client {

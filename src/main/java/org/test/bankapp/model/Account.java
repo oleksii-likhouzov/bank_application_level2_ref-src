@@ -1,7 +1,6 @@
 package org.test.bankapp.model;
 
-import org.test.bankapp.NotEnoughFundsException;
-import org.test.bankapp.Report;
+import org.test.bankapp.exception.NotEnoughFundsException;
 
 public interface Account extends Report {
     // Получить баланс

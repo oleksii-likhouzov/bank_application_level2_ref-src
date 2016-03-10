@@ -1,12 +1,11 @@
 package org.test.bankapp.service;
 
-import org.test.bankapp.ClientExistsException;
+import org.test.bankapp.exception.ClientExistsException;
 import org.test.bankapp.model.Account;
 import org.test.bankapp.model.Bank;
 import org.test.bankapp.model.Client;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 public class BankServiceImpl implements BankService {

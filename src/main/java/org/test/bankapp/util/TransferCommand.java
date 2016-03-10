@@ -1,6 +1,6 @@
-package org.test.util;
+package org.test.bankapp.util;
 
-import org.test.bankapp.NotEnoughFundsException;
+import org.test.bankapp.exception.NotEnoughFundsException;
 import org.test.bankapp.model.Client;
 import org.test.bankapp.service.BankService;
 import org.test.bankapp.service.BankServiceImpl;

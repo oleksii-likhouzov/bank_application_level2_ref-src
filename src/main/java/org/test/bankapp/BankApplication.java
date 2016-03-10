@@ -4,15 +4,17 @@ package org.test.bankapp;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.test.bankapp.exception.ClientExistsException;
+import org.test.bankapp.exception.NotEnoughFundsException;
+import org.test.bankapp.exception.OverDraftLimitExceededException;
 import org.test.bankapp.model.*;
 import org.test.bankapp.service.BankService;
 import org.test.bankapp.service.BankServiceImpl;
-import org.test.util.BankCommander;
+import org.test.bankapp.util.BankCommander;
 
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 public class BankApplication {

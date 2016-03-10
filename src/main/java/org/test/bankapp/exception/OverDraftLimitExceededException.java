@@ -1,4 +1,4 @@
-package org.test.bankapp;
+package org.test.bankapp.exception;
 
 
 import org.test.bankapp.model.CheckingAccount;

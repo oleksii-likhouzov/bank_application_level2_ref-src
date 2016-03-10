@@ -1,6 +1,6 @@
-package org.test.util;
+package org.test.bankapp.util;
 
-import org.test.bankapp.ClientExistsException;
+import org.test.bankapp.exception.ClientExistsException;
 import org.test.bankapp.model.Client;
 import org.test.bankapp.model.Gender;
 import org.test.bankapp.service.BankService;

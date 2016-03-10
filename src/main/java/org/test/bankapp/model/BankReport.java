@@ -1,4 +1,4 @@
-package org.test.bankapp;
+package org.test.bankapp.model;
 
 import org.test.bankapp.model.Account;
 import org.test.bankapp.model.Bank;

@@ -3,8 +3,8 @@ package org.test.bankapp.model;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.test.bankapp.NotEnoughFundsException;
-import org.test.bankapp.OverDraftLimitExceededException;
+import org.test.bankapp.exception.NotEnoughFundsException;
+import org.test.bankapp.exception.OverDraftLimitExceededException;
 
 public final class CheckingAccount extends AbstractAccount {
     private static final Logger log = LogManager.getLogger(CheckingAccount.class);

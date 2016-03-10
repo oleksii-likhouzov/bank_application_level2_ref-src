@@ -1,10 +1,8 @@
 package org.test.bankapp.model;
 
-import org.test.bankapp.BankReport;
-import org.test.bankapp.ClientExistsException;
-import org.test.bankapp.ClientRegistrationListener;
-import org.test.bankapp.Report;
-import org.test.bankapp.model.Client;
+import org.test.bankapp.exception.ClientExistsException;
+import org.test.bankapp.exception.ClientRegistrationListener;
+
 import java.util.*;
 
 public class Bank implements Report {
