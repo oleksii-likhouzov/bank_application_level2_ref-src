@@ -208,37 +208,36 @@ public class Client {
         return gender.gender + ". " + name;
     }
 
+    // Only name and gender are used for code calculation
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Client client = (Client) o;
-
-        if (Float.compare(client.initialOverdraft, initialOverdraft) != 0) return false;
-        if (name != null ? !name.equals(client.name) : client.name != null) return false;
-        if (phone != null ? !phone.equals(client.phone) : client.phone != null) return false;
-        if (email != null ? !email.equals(client.email) : client.email != null) return false;
-        if (city != null ? !city.equals(client.city) : client.city != null) return false;
-        if (activeAccount != null ? !activeAccount.equals(client.activeAccount) : client.activeAccount != null)
-            return false;
-
-        if (gender.gender != null ? !gender.gender.equals(client.gender.gender) : client.gender.gender != null) return false;
-        if (accounts != null ? !Arrays.equals(accounts.toArray(), client.accounts.toArray()): client.accounts != null) return false;
+        if (name == null) {
+            if (client.name != null) {
+                return false;
+            }
+        } else {
+            if (!name.equals(client.name)) {
+                return false;
+            }
+        }
+        if (gender == null) {
+            if (client.gender != null) {
+                return false;
+            }
+        } else {
+            if (!(gender ==client.gender)) {
+                return false;
+            }
+        }
         return true;
-
     }
 
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (phone != null ? phone.hashCode() : 0);
-        result = 31 * result + (email != null ? email.hashCode() : 0);
-        result = 31 * result + (city != null ? city.hashCode() : 0);
-        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
-        result = 31 * result + (accounts != null ? accounts.hashCode() : 0);
-        result = 31 * result + (activeAccount != null ? activeAccount.hashCode() : 0);
-        result = 31 * result + (initialOverdraft != +0.0f ? Float.floatToIntBits(initialOverdraft) : 0);
         result = 31 * result + (gender != null ? gender.hashCode() : 0);
         return result;
     }
