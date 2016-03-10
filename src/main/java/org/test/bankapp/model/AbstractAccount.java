@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class AbstractAccount implements Account {
     private static final Logger log = LogManager.getLogger(AbstractAccount.class);
-    private float balance;
+    protected float balance;
 
     public void deposit(float x) {
         if (x < 0.) {
@@ -29,8 +29,9 @@ public abstract class AbstractAccount implements Account {
         System.out.println("  Balance:" + balance);
     }
 
+
     public void decimalValue() {
-        System.out.println(Math.round(balance*100)/100.f);
+        System.out.println(Math.round(balance * 100) / 100.f);
     }
 
     @Override

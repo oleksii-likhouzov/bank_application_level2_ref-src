@@ -256,7 +256,6 @@ public class Client {
             accountData.append("acc[" + i + "]={" + account + "}");
             i++;
         }
-        ;
         accountData.append("}");
         return "Client{" +
                 "name='" + name + '\'' +
