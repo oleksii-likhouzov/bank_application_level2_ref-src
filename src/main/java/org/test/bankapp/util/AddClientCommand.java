@@ -39,7 +39,7 @@ public class AddClientCommand implements Command {
         }
 
 
-        tmpClient = new Client(gender, clientOverdraft);
+
 
         String clientPhone;
 
@@ -56,9 +56,8 @@ public class AddClientCommand implements Command {
         if (clientEmail != null && clientEmail.length() > 0 && !StringUtility.checkIsEmail(clientEmail)) {
             throw new RuntimeException("Not a valid email!");
         }
-        tmpClient.setName(clientName);
-        tmpClient.setPhone(clientPhone);
-        tmpClient.setEmail(clientEmail);
+        tmpClient = new Client(clientName, gender, clientOverdraft);
+
     }
 
     public void execute() {

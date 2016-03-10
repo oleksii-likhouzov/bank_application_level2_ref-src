@@ -9,11 +9,11 @@ public class Bank implements Report {
     private List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
     private Map<String, Client> clientCache = new TreeMap<String, Client>();
 
-    public interface ClientRegistrationListener {
+    private interface ClientRegistrationListener {
         void onClientAdded(Client c);
     }
 
-    public class PrintClientListener implements ClientRegistrationListener {
+    private class PrintClientListener implements ClientRegistrationListener {
         public void onClientAdded(Client client) {
             System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
             System.out.println(" Client registration report ");
@@ -21,12 +21,14 @@ public class Bank implements Report {
             System.out.format("  Client overdraft  : %.2f\n", client.getInitialOverdraft());
             System.out.format("  Client balance    : %.2f\n", client.getBalance());
             System.out.println("  Active account    :");
-            client.getActiveAccount().printReport();
+            if (client.getActiveAccount() != null) {
+                client.getActiveAccount().printReport();
+            }
             System.out.println("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         }
     }
 
-    public class EmailNotificationListener implements ClientRegistrationListener {
+    private class EmailNotificationListener implements ClientRegistrationListener {
         public void onClientAdded(Client client) {
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             System.out.println("Notification email for client \"" + client.getName() + "\"… to be sent");
@@ -34,7 +36,7 @@ public class Bank implements Report {
         }
     }
 
-    public void registerEvent(ClientRegistrationListener listener) {
+    private void registerEvent(ClientRegistrationListener listener) {
         listeners.add(listener);
     }
 

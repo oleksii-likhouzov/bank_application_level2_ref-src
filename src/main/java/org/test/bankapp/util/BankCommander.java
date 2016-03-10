@@ -82,6 +82,7 @@ public class BankCommander {
                 }
                 commands.get(commndNumber.toString()).execute();
             } catch (Exception e) {
+                e.printStackTrace();
                 log.log(Level.ERROR, e);
 
             }

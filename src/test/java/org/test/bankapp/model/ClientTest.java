@@ -7,15 +7,18 @@ public class ClientTest
 {
     @Test
     public void testClientEquals() {
-        Client client = new Client(Gender.FEMALE);
+        Client client = new Client("First", Gender.FEMALE);
+        Account account = client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE);
+        client.setActiveAccount(account);
         client.getActiveAccount().deposit(10);
         client.addAccount(client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
         client.addAccount(client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
-        AbstractAccount account = (AbstractAccount)client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE);
+        account = (AbstractAccount)client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE);
         account.deposit(20);
         client.addAccount(account);
-        Client clientEqual = new Client(Gender.FEMALE);
-
+        Client clientEqual = new Client("First", Gender.FEMALE);
+        account = client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE);
+        client.setActiveAccount(account);
         clientEqual.getActiveAccount().deposit(10);
         clientEqual.addAccount(clientEqual.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
         clientEqual.addAccount(clientEqual.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
@@ -29,7 +32,7 @@ public class ClientTest
     }
     @Test
     public void testHashCode() {
-        Client client = new Client(Gender.FEMALE);
+        Client client = new Client("Second", Gender.FEMALE);
         client.getActiveAccount().deposit(10);
         client.addAccount(client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
         client.addAccount(client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
@@ -41,7 +44,7 @@ public class ClientTest
     }
     @Test
     public void testToString() {
-        Client client = new Client(Gender.FEMALE);
+        Client client = new Client("Second", Gender.FEMALE);
         client.getActiveAccount().deposit(10);
         client.addAccount(client.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
         client.addAccount(client.createAccount(Client.CLIENT_SAVING_ACCOUNT_TYPE));

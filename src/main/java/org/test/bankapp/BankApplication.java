@@ -25,8 +25,8 @@ public class BankApplication {
     private void addClient(String clientName, Gender gender) {
         BankService bankService = new BankServiceImpl();
 
-        Client client = new Client(gender);
-        client.setName(clientName);
+        Client client = new Client(clientName,gender);
+
         try {
         bankService.addClient(bank, client);
         } catch (ClientExistsException exception) {
@@ -37,8 +37,7 @@ public class BankApplication {
     private void addClient(String clientName, float initialOverdraft, Gender gender) {
         BankService bankService = new BankServiceImpl();
 
-        Client client = new Client(gender, initialOverdraft);
-        client.setName(clientName);
+        Client client = new Client(clientName, gender, initialOverdraft);
         try {
             bankService.addClient(bank, client);
         } catch (ClientExistsException exception) {
@@ -118,6 +117,9 @@ public class BankApplication {
             Set <Client> clients = bank.getClients();
             for (Client client:clients) {
                 Account clientActiveAccount = client.getActiveAccount();
+                if (clientActiveAccount == null) {
+                    continue;
+                }
                 float clientBalance = clientActiveAccount.getBalance();
                 if (clientBalance > 0) {
                     try {

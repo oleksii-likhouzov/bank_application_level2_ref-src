@@ -25,36 +25,22 @@ public class Client {
     public final static String CLIENT_CHECKING_ACCOUNT_TYPE = "checking";
     public final static String CLIENT_SAVING_ACCOUNT_TYPE = "saving";
 
-    public Client() {
-        this(INITIAL_OVERDRTAFT);
-    }
-
-    public Client(float initialOverdraft) {
-        Account account = createAccount(initialOverdraft == 0 ? CLIENT_SAVING_ACCOUNT_TYPE : CLIENT_CHECKING_ACCOUNT_TYPE);
-        this.initialOverdraft = initialOverdraft;
-        if (account != null &&
-                account instanceof CheckingAccount) {
-            ((CheckingAccount) account).setOverdraft(initialOverdraft);
-        }
-        addAccount(account);
-    }
-
-    public Client(Gender gender) {
-        this(INITIAL_OVERDRTAFT);
+    public Client(String name, Gender gender, float initialOverdraft) {
         setGender(gender);
+        setInitialOverdraft(initialOverdraft);
+        setName(name);
     }
 
-    public Client(Gender gender, float initialOverdraft) {
-        this(initialOverdraft);
-        setGender(gender);
+    public Client(String name, Gender gender) {
+        this(name, gender, INITIAL_OVERDRTAFT);
     }
 
     public void addAccount(Account account) {
-
-        if (activeAccount == null) {
-            setActiveAccount(account);
-        }
         accounts.add(account);
+    }
+
+    public void setInitialOverdraft(float initialOverdraft) {
+        this.initialOverdraft = initialOverdraft;
     }
 
     public void setName(String name) {
@@ -156,7 +142,6 @@ public class Client {
                     CLIENT_CHECKING_ACCOUNT_TYPE + ", " +
                     CLIENT_SAVING_ACCOUNT_TYPE +
                     ". ");
-
         } else {
             if (accountType.equals(CLIENT_CHECKING_ACCOUNT_TYPE)) {
                 newAccout = new CheckingAccount(initialOverdraft);
@@ -173,7 +158,6 @@ public class Client {
 
     public float getBalance() {
         float result = 0.f;
-
         for (Account tmpAccount : accounts) {
             if (tmpAccount != null) {
                 result = result + tmpAccount.getBalance();
@@ -191,7 +175,9 @@ public class Client {
         System.out.format("  Client balance    : %.2f\n", getBalance());
         System.out.println("  Client city       : " + getCity());
         System.out.println("  Active account    :");
-        getActiveAccount().printReport();
+        if (getActiveAccount()!= null) {
+            getActiveAccount().printReport();
+        }
         Set<Account> accounts = getAccounts();
         System.out.println("  Client accounts information  (accounts count " + accounts.size() + ") :");
         int j = 1;
@@ -228,7 +214,7 @@ public class Client {
                 return false;
             }
         } else {
-            if (!(gender ==client.gender)) {
+            if (!(gender == client.gender)) {
                 return false;
             }
         }
