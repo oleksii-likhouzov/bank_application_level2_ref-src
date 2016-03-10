@@ -55,22 +55,18 @@ public class BankApplication {
         addClient("Third Client", 1, Gender.MALE);
         addClient("For delete", 200, Gender.FEMALE);
         addClient("Five Client", 78, Gender.MALE);
-        Set<Client> clients = bank.getClients();
         Client tmpClient =  bankService.findClientByName(bank, "Second Client");
         tmpClient.setCity("Monreal");
-
-
         tmpClient =  bankService.findClientByName(bank, "Third Client");
         tmpClient.setCity("Monreal");
-        bankService.addAccount(tmpClient, tmpClient.createAccount(Client.CLIENT_SAVING_ACCOUNT_TYPE));
-        bankService.addAccount(tmpClient, tmpClient.createAccount(Client.CLIENT_CHECKING_ACCOUNT_TYPE));
-
-        Account tempAccount = tmpClient.createAccount(Client.CLIENT_SAVING_ACCOUNT_TYPE);
+        bankService.addAccount(tmpClient, bankService.createAccount(tmpClient, Client.CLIENT_SAVING_ACCOUNT_TYPE));
+        bankService.addAccount(tmpClient, bankService.createAccount(tmpClient, Client.CLIENT_CHECKING_ACCOUNT_TYPE));
+        Account tempAccount = bankService.createAccount(tmpClient, Client.CLIENT_SAVING_ACCOUNT_TYPE);
         bankService.addAccount(tmpClient, tempAccount);
-
         bankService.setActiveAccount(tmpClient, tempAccount);
         tmpClient =  bankService.findClientByName(bank, "For delete");
         bankService.removeClient(bank, tmpClient);
+        Set<Client> clients = bank.getClients();
         for (Client client : clients) {
             Set<Account> accounts = client.getAccounts();
             for (Account account : accounts) {
@@ -89,7 +85,6 @@ public class BankApplication {
                                         "  for account is not possible. Account balance: " +
                                         exception.getBalance() +
                                         ". Account overdraft:" + exception.getOverdraft());
-
                         try {
                             account.withdraft(
                                     account.getBalance() + (int) (((CheckingAccount) account).getOverdraft() / 2));
@@ -103,10 +98,8 @@ public class BankApplication {
                         } catch (NotEnoughFundsException innerException) {
                             log.log(Level.ERROR, exception);
                         }
-
                     }
                 }
-
             }
         }
     }
@@ -148,8 +141,6 @@ public class BankApplication {
     }
 
     public static void main(String[] argv) throws IOException {
-
-
         if (Arrays.asList(argv).contains("-report")) {
             System.out.println("Demo mode:");
             BankApplication bankApplication = new BankApplication();
