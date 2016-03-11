@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Logger;
 import org.test.bankapp.exception.NotEnoughFundsException;
 import org.test.bankapp.exception.OverDraftLimitExceededException;
 
+import java.util.Map;
+
 public final class CheckingAccount extends AbstractAccount {
     private static final Logger log = LogManager.getLogger(CheckingAccount.class);
     private float overdraft;
@@ -55,7 +57,6 @@ public final class CheckingAccount extends AbstractAccount {
 
     @Override
     public int hashCode() {
-        System.out.println(this);
         int result = getBalance() != +0.0f ? Float.floatToIntBits(getBalance()) : 0;
         return (31 * result + (overdraft != +0.0f ? Float.floatToIntBits(overdraft) : 0));
     }
@@ -64,6 +65,13 @@ public final class CheckingAccount extends AbstractAccount {
     public void printReport() {
         super.printReport();
         System.out.println("  Overdraft: " + overdraft);
+    }
+
+    public void parseFeed(Map<String, String> feed) {
+        String balance = feed.get("balance");
+        String overdraft = feed.get("overdraft");
+        this.overdraft = Float.parseFloat(overdraft);
+        setBalance(Float.parseFloat(balance));
     }
 
     @Override

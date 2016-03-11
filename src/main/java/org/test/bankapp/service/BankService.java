@@ -28,7 +28,13 @@ public interface BankService {
 
     void withdraw(Client client, float x) throws NotEnoughFundsException;
 
-    public void printReport(Bank bank);
+    void printReport(Bank bank);
 
-    public void printReport(Client client);
+    void printReport(Client client);
+
+    void loadFeed(Bank bank, String folder);
+
+    void saveClient(Client client);
+
+    Client loadClient();
 }

@@ -107,4 +107,25 @@ public class Bank implements Report {
         }
         System.out.println(BankReport.getClientsByCity(this));
     }
+
+    public void parseFeed(Map<String, String> feed) {
+        String name = feed.get("name"); // client name
+        String gender = feed.get("gender"); // client gender
+
+        // try to find client by his name
+        Client client = clientCache.get(name);
+        if (client == null) { // if no client then create it
+            client = new Client(name,Gender.valueOf(gender));
+            try {
+                addClient(client);
+            } catch (ClientExistsException e) {
+                e.printStackTrace();
+            }
+        }
+        /**
+         * This method should read all info
+         * about the client from the feed map
+         */
+        client.parseFeed(feed);
+    }
 }

@@ -6,11 +6,13 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.test.bankapp.exception.NotEnoughFundsException;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-public class Client {
+public class Client implements Serializable {
     private static final Logger log = LogManager.getLogger(Client.class);
     private String name;
     private Set<Account> accounts = new HashSet<Account>();
@@ -175,7 +177,7 @@ public class Client {
         System.out.format("  Client balance    : %.2f\n", getBalance());
         System.out.println("  Client city       : " + getCity());
         System.out.println("  Active account    :");
-        if (getActiveAccount()!= null) {
+        if (getActiveAccount() != null) {
             getActiveAccount().printReport();
         }
         Set<Account> accounts = getAccounts();
@@ -252,5 +254,38 @@ public class Client {
                 ", initialOverdraft=" + initialOverdraft +
                 ", gender=" + gender +
                 '}';
+    }
+
+
+    /**
+     * This method finds account by its type or create a new one
+     */
+
+    private Account getAccount(String accountType) {
+        for (Account acc : accounts) {
+            if ((accountType.equals(CLIENT_CHECKING_ACCOUNT_TYPE) &&
+                    acc instanceof CheckingAccount) ||
+                    accountType.equals(CLIENT_SAVING_ACCOUNT_TYPE) &&
+                            acc instanceof SavingAccount
+                    ) {
+                return acc;
+            }
+        }
+        Account tempAccount  = createAccount(accountType);
+        accounts.add(tempAccount);
+        return tempAccount;
+
+    }
+
+    public void parseFeed(Map<String, String> feed) {
+        String accountType = feed.get("accounttype");
+
+        Account acc = getAccount(accountType);
+        /**
+         * This method should read all account info from the feed.
+         * There will be different implementations for
+         * CheckingAccount and SavingAccount.
+         */
+        acc.parseFeed(feed);
     }
 }

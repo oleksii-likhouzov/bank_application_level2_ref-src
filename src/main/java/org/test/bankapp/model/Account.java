@@ -2,6 +2,8 @@ package org.test.bankapp.model;
 
 import org.test.bankapp.exception.NotEnoughFundsException;
 
+import java.util.Map;
+
 public interface Account extends Report {
     // Получить баланс
     float getBalance();
@@ -14,4 +16,6 @@ public interface Account extends Report {
 
     //  выводящий округленное значение баланса счета
     void decimalValue();
+
+    void parseFeed(Map<String, String> feed);
 }

@@ -2,6 +2,8 @@ package org.test.bankapp.model;
 
 import org.apache.logging.log4j.*;
 
+import java.util.Map;
+
 public final class SavingAccount extends AbstractAccount {
     private static final Logger log = LogManager.getLogger(SavingAccount.class);
 
@@ -26,6 +28,10 @@ public final class SavingAccount extends AbstractAccount {
         setBalance(getBalance() - x);
     }
 
+    public void parseFeed(Map<String, String> feed) {
+        String balance = feed.get("balance");
+        setBalance(Float.parseFloat(balance));
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

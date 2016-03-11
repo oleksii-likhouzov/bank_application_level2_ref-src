@@ -1,0 +1,2 @@
+accounttype=checking;balance=200;overdraft=50;name=Second;gender=MALE;
+accounttype=saving;balance=300;name=Third;gender=FEMALE;

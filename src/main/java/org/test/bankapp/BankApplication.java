@@ -19,6 +19,8 @@ import java.util.Set;
 
 public class BankApplication {
     private static final Logger log = LogManager.getLogger(BankApplication.class);
+    public final static String TEXT_FEED_FOLDER_NAME = "./files";
+
     private Bank bank;
 
 
@@ -141,6 +143,10 @@ public class BankApplication {
     }
 
     public static void main(String[] argv) throws IOException {
+        System.out.println("Parameters:");
+        for(String arg:  argv)
+            System.out.println(arg);
+
         if (Arrays.asList(argv).contains("-report")) {
             System.out.println("Demo mode:");
             BankApplication bankApplication = new BankApplication();
@@ -149,7 +155,38 @@ public class BankApplication {
             bankApplication.modifyBank();
             bankApplication.printBankReport();
         } else {
-            BankCommander.runCommander();
+            if (Arrays.asList(argv).contains("-feed")) {
+                Bank  bank = new Bank();
+                BankService bakService = new BankServiceImpl();
+                bakService.loadFeed(bank, TEXT_FEED_FOLDER_NAME);
+                bakService.printReport(bank);
+
+                if (Arrays.asList(argv).contains("-serialize")) {
+                    for (Client client: bank.getClients()) {
+                        bakService.saveClient(client);
+                        break;
+                    }
+                }
+            }
+            if (Arrays.asList(argv).contains("-serialize")) {
+                System.out.println("**************\n*\n*SERIALIZE\n***********");
+                Bank  bank = new Bank();
+                BankService bakService = new BankServiceImpl();
+                Client client = bakService.loadClient();
+                try {
+                    if (client != null) {
+                        bakService.addClient(bank, client);
+                    }
+                } catch (ClientExistsException e) {
+                    e.printStackTrace();
+                }
+                bakService.printReport(bank);
+            }
+            if (!Arrays.asList(argv).contains("-feed") &&
+                    !Arrays.asList(argv).contains("-serialize")
+                    ) {
+                BankCommander.runCommander();
+            }
         }
 
     }

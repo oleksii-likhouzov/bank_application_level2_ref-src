@@ -5,7 +5,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public abstract class AbstractAccount implements Account {
+import java.io.Serializable;
+
+public abstract class AbstractAccount implements Account, Serializable {
     private static final Logger log = LogManager.getLogger(AbstractAccount.class);
     protected float balance;
 
@@ -28,7 +30,6 @@ public abstract class AbstractAccount implements Account {
     public void printReport() {
         System.out.println("  Balance:" + balance);
     }
-
 
     public void decimalValue() {
         System.out.println(Math.round(balance * 100) / 100.f);

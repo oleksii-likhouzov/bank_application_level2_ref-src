@@ -1,6 +1,8 @@
 package org.test.bankapp.model;
 
-public enum Gender {
+import java.io.Serializable;
+
+public enum Gender implements Serializable {
     MALE("Mr"),
     FEMALE("Ms");
     String gender;
@@ -9,6 +11,7 @@ public enum Gender {
         this.gender = gender;
 
     }
+
     public static Gender fromString(String parameterName) {
         if (parameterName != null) {
             for (Gender objType : Gender.values()) {
