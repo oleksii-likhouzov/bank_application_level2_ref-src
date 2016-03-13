@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Bank implements Report {
     private List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
-    private Map<String, Client> clientCache = new TreeMap<String, Client>();
+    private Map<String, Client> clients = new TreeMap<String, Client>();
 
     private interface ClientRegistrationListener {
         void onClientAdded(Client c);
@@ -45,7 +45,7 @@ public class Bank implements Report {
     }
 
     private void checkDuplicateName(Client client) throws ClientExistsException {
-        if ( clientCache.get(client.getName()) != null) {
+        if ( clients.get(client.getName()) != null) {
             throw new ClientExistsException();
         }
     }
@@ -53,7 +53,7 @@ public class Bank implements Report {
     public void addClient(Client client) throws ClientExistsException {
         checkDuplicateName(client);
         // TODO: cache should take into consideration client.gender
-        clientCache.put(client.getName(), client);
+        clients.put(client.getName(), client);
         for (ClientRegistrationListener listener : listeners) {
             listener.onClientAdded(client);
         }
@@ -61,17 +61,17 @@ public class Bank implements Report {
 
     public void removeClient(Client c) {
         // TODO - remove action be name only
-        clientCache.remove(c.getName());
+        clients.remove(c.getName());
     }
 
 
-    public Map<String, Client> getClientCache() {
-        return clientCache;
+    public Map<String, Client> getClients() {
+        return clients;
     }
 
     public void printReport() {
         float bankBalance = 0.f;
-        for (Client client : clientCache.values()) {
+        for (Client client : clients.values()) {
             bankBalance += client.getBalance();
         }
         System.out.println("\n\n\n\nBank report  :");
@@ -105,7 +105,7 @@ public class Bank implements Report {
         String gender = feed.get("gender"); // client gender
 
         // try to find client by his name
-        Client client = clientCache.get(name);
+        Client client = clients.get(name);
         if (client == null) { // if no client then create it
             client = new Client(name,Gender.valueOf(gender));
             try {
@@ -114,7 +114,7 @@ public class Bank implements Report {
                 e.printStackTrace();
             }
         }
-s        /**
+        /**
          * This method should read all info
          * about the client from the feed map
          */

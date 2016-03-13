@@ -68,7 +68,7 @@ public class BankApplication {
         bankService.setActiveAccount(tmpClient, tempAccount);
         tmpClient =  bankService.findClientByName(bank, "For delete");
         bankService.removeClient(bank, tmpClient);
-        for (Client client : bank.getClientCache().values()) {
+        for (Client client : bank.getClients().values()) {
             Set<Account> accounts = client.getAccounts();
             for (Account account : accounts) {
                 account.deposit(((int) (Math.random() * 100 * 100)) / 100.f);
@@ -108,7 +108,7 @@ public class BankApplication {
     // оторый изменяет значение баланса (методы deposit() и withdraw()) для некоторых счетов клиентов банка.
     public void modifyBank() {
         if (bank != null) {
-            for (Client client:bank.getClientCache().values()) {
+            for (Client client:bank.getClients().values()) {
                 Account clientActiveAccount = client.getActiveAccount();
                 if (clientActiveAccount == null) {
                     continue;
@@ -160,7 +160,7 @@ public class BankApplication {
                 bakService.printReport(bank);
 
                 if (Arrays.asList(argv).contains("-serialize")) {
-                    for (Client client: bank.getClientCache().values()) {
+                    for (Client client: bank.getClients().values()) {
                         bakService.saveClient(client);
                         break;
                     }

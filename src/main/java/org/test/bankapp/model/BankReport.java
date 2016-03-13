@@ -1,9 +1,5 @@
 package org.test.bankapp.model;
 
-import org.test.bankapp.model.Account;
-import org.test.bankapp.model.Bank;
-import org.test.bankapp.model.Client;
-
 import java.util.*;
 
 public class BankReport {
@@ -13,7 +9,7 @@ public class BankReport {
      * @return
      */
     public static int getNumberOfClients(Bank bank) {
-        return bank.getClientCache() != null ? bank.getClientCache().size() : 0;
+        return bank.getClients() != null ? bank.getClients().size() : 0;
     }
 
     /**
@@ -24,7 +20,7 @@ public class BankReport {
     public static int getAccountsNumber(Bank bank) {
         int result =0;
 
-        for (Client client:bank.getClientCache().values()) {
+        for (Client client:bank.getClients().values()) {
             result += (client.getAccounts()!= null?client.getAccounts().size():0);
         }
         return result;
@@ -38,7 +34,7 @@ public class BankReport {
     public static float getBankCreditSum(Bank bank) {
         float result =0.f;
 
-        for (Client client:bank.getClientCache().values()) {
+        for (Client client:bank.getClients().values()) {
             for(Account account:client.getAccounts()) {
                 float tmpResult = account.getBalance();
                 if (tmpResult <0.f)
@@ -60,7 +56,7 @@ public class BankReport {
                 return (int) ((((Client)o1).getBalance()- ((Client)o2).getBalance())*100);
             }
         });
-        for (Client client:bank.getClientCache().values()) {
+        for (Client client:bank.getClients().values()) {
             clients.add(client);
         }
         return clients;
@@ -76,7 +72,7 @@ public class BankReport {
     public static Map<String, List<Client>> getClientsByCity(Bank bank) {
         Map<String, List<Client>> result= new TreeMap<String, List<Client>>();
         Map<String,String> tmpCityList = new TreeMap<String,String>();
-        for (Client client:bank.getClientCache().values()) {
+        for (Client client:bank.getClients().values()) {
             tmpCityList.put(
                     (client.getCity() == null? new String():
                     client.getCity()),client.getCity());
@@ -84,7 +80,7 @@ public class BankReport {
 
         for (String city:tmpCityList.keySet()) {
             List<Client> tmpClientList =  new ArrayList<Client>();
-            for(Client client:bank.getClientCache().values()){
+            for(Client client:bank.getClients().values()){
                 if (!city.equals("") && client.getCity()!= null &&
                         city.equals(client.getCity())  ) {
                     tmpClientList.add(client);

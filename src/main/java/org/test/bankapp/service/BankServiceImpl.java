@@ -29,11 +29,11 @@ public class BankServiceImpl implements BankService {
     }
 
     public Client findClientByName(Bank bank, String clientName) {
-        return bank.getClientCache().get(clientName);
+        return bank.getClients().get(clientName);
     }
 
     public Client getClient(Bank bank, String clientName) {
-        return bank.getClientCache().get(clientName);
+        return bank.getClients().get(clientName);
     }
 
     public Account createAccount(Client client, String accountType) {
