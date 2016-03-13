@@ -5,7 +5,6 @@ import org.test.bankapp.exception.ClientExistsException;
 import java.util.*;
 
 public class Bank implements Report {
-    private Set<Client> clients = new HashSet<Client>();
     private List<ClientRegistrationListener> listeners = new ArrayList<ClientRegistrationListener>();
     private Map<String, Client> clientCache = new TreeMap<String, Client>();
 
@@ -46,10 +45,8 @@ public class Bank implements Report {
     }
 
     private void checkDuplicateName(Client client) throws ClientExistsException {
-        for (Client tmpClient : clients) {
-            if (tmpClient.getName().equals(client.getName())) {
-                throw new ClientExistsException();
-            }
+        if ( clientCache.get(client.getName()) != null) {
+            throw new ClientExistsException();
         }
     }
 
@@ -57,21 +54,16 @@ public class Bank implements Report {
         checkDuplicateName(client);
         // TODO: cache should take into consideration client.gender
         clientCache.put(client.getName(), client);
-        clients.add(client);
         for (ClientRegistrationListener listener : listeners) {
             listener.onClientAdded(client);
         }
     }
 
     public void removeClient(Client c) {
-        clients.remove(c);
         // TODO - remove action be name only
         clientCache.remove(c.getName());
     }
 
-    public Set<Client> getClients() {
-        return clients;
-    }
 
     public Map<String, Client> getClientCache() {
         return clientCache;
@@ -79,7 +71,7 @@ public class Bank implements Report {
 
     public void printReport() {
         float bankBalance = 0.f;
-        for (Client client : clients) {
+        for (Client client : clientCache.values()) {
             bankBalance += client.getBalance();
         }
         System.out.println("\n\n\n\nBank report  :");
@@ -122,7 +114,7 @@ public class Bank implements Report {
                 e.printStackTrace();
             }
         }
-        /**
+s        /**
          * This method should read all info
          * about the client from the feed map
          */
