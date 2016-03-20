@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.test.bankapp.exception.NotEnoughFundsException;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
